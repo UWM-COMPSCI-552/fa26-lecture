@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"noEmitOnError": true,
+		"removeComments": false,
+		"sourceMap": true,
+		"strict": true,
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"moduleResolution": "nodenext",
+		"module": "nodenext",
+		"types": ["node", "jest"],
+		"target": "es2017",
+		"rootDir": "src",
+		"outDir": "dist"
+	},
+	"exclude": [
+		"node_modules"
+	]
+}

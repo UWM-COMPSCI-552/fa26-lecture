@@ -1,0 +1,32 @@
+{
+  "name": "lecture",
+  "version": "1.0.0",
+  "description": "COMPSCI 552 Lecture Code",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "clean": "tsc --build --clean",
+    "test": "jest",
+    "lint": "eslint .",
+    "city": "tsx src/city.ts"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/jest": "^30.0.0",
+    "eslint": "^10.9.0",
+    "eslint-plugin-jest": "^29.15.2",
+    "jest": "^30.4.2",
+    "ts-jest": "^29.4.11",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.23.12",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.60.0"
+  },
+  "overrides": {
+    "glob": "^13.0.6"
+  },
+  "dependencies": {
+    "nanoid": "^5.1.11"
+  }
+}

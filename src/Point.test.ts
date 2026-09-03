@@ -10,5 +10,6 @@ describe('Point tests', () => {
         const p = new Point("1,2");
         expect(p.getX()).toBe(1);
         expect(p.getY()).toBe(2);
-    })
+    });
+    // TODO: quiz : test oher constructor
 })

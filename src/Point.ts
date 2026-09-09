@@ -28,4 +28,15 @@ export class Point {
     public equals(other : Point) : boolean {
         return this.x === other.x && this.y === other.y;
     }
+
+    public static fromJSON(json : unknown) : Point {
+        if (typeof json === "object" && json != null) {
+            if ("x" in json && "y" in json) {
+                if (typeof json.x === "number" && typeof json.y === "number") {
+                    return new Point(json.x,json.y);
+                }
+            }
+        }
+        throw new Error("bad JSON for point: " + json);
+    }
 }

@@ -60,4 +60,9 @@ describe('Point tests', () => {
         const p2 = new FakePoint();
         expect(p1.equals(p2)).toBe(true);
     });
+    describe('JSON tests', () => {
+        test('empty object', () => {
+            expect(() => Point.fromJSON({})).toThrow();
+        });
+    })
 });

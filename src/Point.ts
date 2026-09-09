@@ -24,4 +24,8 @@ export class Point {
     public getY() : number {
         return this.y;
     }
+
+    public equals(other : Point) : boolean {
+        return this.x === other.x && this.y === other.y;
+    }
 }

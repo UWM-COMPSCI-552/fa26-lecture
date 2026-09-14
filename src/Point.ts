@@ -5,8 +5,8 @@ export interface PointJSON {
 
 export class Point {
 
-    private x : number;
-    private y : number;
+    private readonly x : number;
+    private readonly y : number;
 
     constructor() 
     constructor(s : string)

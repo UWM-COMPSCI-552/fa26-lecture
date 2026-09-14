@@ -64,5 +64,22 @@ describe('Point tests', () => {
         test('empty object', () => {
             expect(() => Point.fromJSON({})).toThrow();
         });
+        test('null test', () => {
+            expect(() => Point.fromJSON(null)).toThrow();
+        });
+        test('normal JSON', () => {
+            const p = Point.fromJSON({x:-1, y:3.4});
+            expect(p.getX()).toBe(-1);
+            expect(p.getY()).toBe(3.4);
+            const f = p.getX;
+            const g = f.bind(p);
+            expect(g()).toBe(-1);
+        });
+    });
+    describe('toJSON tests', () => {
+        test('simple', () => {
+            const p = new Point(-1,3.4);
+            expect(p.toJSON()).toEqual({ y:3.4, x:-1});
+        });
     })
 });

@@ -1,3 +1,8 @@
+export interface PointJSON {
+    x : number;
+    y : number;
+}
+
 export class Point {
 
     private x : number;
@@ -29,6 +34,13 @@ export class Point {
         return this.x === other.x && this.y === other.y;
     }
 
+    public toJSON() : PointJSON {
+        return {
+            x : this.x,
+            y : this.y,
+        };
+    }
+
     public static fromJSON(json : unknown) : Point {
         if (typeof json === "object" && json != null) {
             if ("x" in json && "y" in json) {
@@ -36,6 +48,7 @@ export class Point {
                     return new Point(json.x,json.y);
                 }
             }
+            
         }
         throw new Error("bad JSON for point: " + json);
     }

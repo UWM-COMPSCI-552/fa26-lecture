@@ -41,8 +41,12 @@ export class Stroke {
 
     public async write(filename : string) {
         const s = JSON.stringify(this);
-        await writeFile(filename, s, 'utf8');
-        console.log("Done!");
-        return "Success!";
+        try {
+            await writeFile(filename, s, 'utf8');
+            console.log("Done!");
+            return "Success!";
+        } catch (err) {
+            return "Error: " + err;
+        }
     }
 }

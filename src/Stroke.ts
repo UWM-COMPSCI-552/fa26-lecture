@@ -7,7 +7,7 @@ import { writeFile } from 'node:fs/promises';
 export class Stroke {
     private static allStrokes : Array<Stroke> = [];
     private color : string;
-    private points : Array<Point> = [];
+    private pointsArray : Array<Point> = [];
 
     public static getAll() : Array<Stroke> {
         return this.allStrokes; // "this" is not a Stroke.  It is Stroke
@@ -23,8 +23,32 @@ export class Stroke {
         Stroke.allStrokes.push(this);
     }
 
+    /** Return an array of rthe points of thie stroke */
+    public getPoints() : Array<Point> {
+        return [...this.pointsArray];
+    }
+
+    public points() : Iterable<Point>&Iterator<Point,undefined,unknown> {
+        let currentIndex = -1;
+        const result : Iterable<Point> & Iterator<Point,undefined,unknown> = {
+            next : () => {
+                ++currentIndex;
+                if (currentIndex >= this.pointsArray.length) {
+                    return { done: true }
+                } else 
+                return {
+                    value : this.pointsArray[currentIndex],
+                    done : false
+                };
+            },
+            [Symbol.iterator] : () => {
+                return result;
+            },
+        };
+        return result;
+    }
     public add(p : Point) : void {
-        this.points.push(p);
+        this.pointsArray.push(p);
     }
 
     public setColor(color : string) : void {

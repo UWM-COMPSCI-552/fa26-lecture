@@ -28,10 +28,10 @@ export class Stroke {
         return [...this.pointsArray];
     }
 
-    public points() : Iterable<Point>&Iterator<Point,undefined,unknown> {
+    /*public points() : Iterable<Point>&Iterator<Point,undefined,unknown> {
         let currentIndex = -1;
         const result : Iterable<Point> & Iterator<Point,undefined,unknown> = {
-            next : () => {
+            next : (b) => {
                 ++currentIndex;
                 if (currentIndex >= this.pointsArray.length) {
                     return { done: true }
@@ -46,7 +46,16 @@ export class Stroke {
             },
         };
         return result;
+    }*/
+
+    public *points() : Generator<Point,undefined,undefined|boolean> {
+        for (let i = 0; i < this.pointsArray.length; ++i) {
+            if (yield this.pointsArray[i]) {
+                // remove the value!
+            }
+        }
     }
+
     public add(p : Point) : void {
         this.pointsArray.push(p);
     }

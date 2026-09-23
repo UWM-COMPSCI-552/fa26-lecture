@@ -48,16 +48,24 @@ export class Stroke {
         return result;
     }*/
 
-    public *points() : Generator<Point,undefined,undefined|boolean> {
-        for (let i = 0; i < this.pointsArray.length; ++i) {
+    public *points() : Generator<Point,number,undefined|boolean> {
+        let removed = 0;
+        for (let i = 0; i < this.pointsArray.length; ) {
             if (yield this.pointsArray[i]) {
                 // remove the value!
-            }
+                this.pointsArray.splice(i,1);
+                ++removed;
+            } else ++i;
         }
+        return removed;
     }
 
     public add(p : Point) : void {
         this.pointsArray.push(p);
+    }
+
+    public size() : number {
+        return this.pointsArray.length;
     }
 
     public setColor(color : string) : void {

@@ -90,4 +90,11 @@ export class Stroke {
             return "Error: " + err;
         }
     }
+
+    public draw(ctx: CanvasRenderingContext2D) : void {
+        ctx.beginPath();
+        for (const pt of this.pointsArray) {
+            ctx.lineTo(pt.getX(), pt.getY());
+        }
+    }
 }

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Scribble program</title>
+    <script src="draw.js" type="module"></script>
+    <script type="module">
+      import { draw } from './draw.js';
+      window.draw = draw;
+      console.log('set draw');
+    </script>
+    <style>
+      canvas { display:block; border: 1px solid black; }
+    </style>
+  </head>
+  <body onload="draw();">
+    <canvas id="myCanvas"></canvas>
+  </body>
+</html>

@@ -1,5 +1,5 @@
 import { Point } from './Point.js';
-import { writeFile } from 'node:fs/promises';
+// import { writeFile } from 'node:fs/promises';
 
 /**
  * A mutable class representing a sequence of points in a color.
@@ -80,7 +80,7 @@ export class Stroke {
         return this.color;
     }
 
-    public async write(filename : string) {
+    /*public async write(filename : string) {
         const s = JSON.stringify(this);
         try {
             await writeFile(filename, s, 'utf8');
@@ -89,12 +89,14 @@ export class Stroke {
         } catch (err) {
             return "Error: " + err;
         }
-    }
+    }*/
 
     public draw(ctx: CanvasRenderingContext2D) : void {
         ctx.beginPath();
         for (const pt of this.pointsArray) {
             ctx.lineTo(pt.getX(), pt.getY());
         }
+        ctx.strokeStyle = this.color;
+        ctx.stroke();
     }
 }

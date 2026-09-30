@@ -1,4 +1,5 @@
 import { Stroke } from './Stroke.js';
+import { Point } from './Point.js';
 
 export class Draw {
     private static MARGIN = 24;
@@ -27,7 +28,8 @@ export class Draw {
 
     repaint() {
         for (const st of this.drawing) {
-            st.draw(ctx);
+            console.log('drawing  stroke of size ', st.size());
+            st.draw(this.ctx);
         }
     }
     setSize(width : number, height : number) {
@@ -36,16 +38,28 @@ export class Draw {
     }
 
     mouseDown(e : MouseEvent) {
+        const str = new Stroke("black");
+        str.add(new Point(e.x, e.y));
+        this.drawing.push(str);
         this.ctx.beginPath();
         this.ctx.moveTo(e.x, e.y);
     }
 
     mouseMoved(e : MouseEvent) {
-        this.ctx.lineTo(e.x, e.y);
+        const str = this.drawing[this.drawing.length-1];
+        if (e.buttons == 1) {
+            str.add(new Point(e.x, e.y));
+            this.ctx.lineTo(e.x, e.y);
+            this.ctx.stroke();
+            this.ctx.beginPath();
+            this.ctx.moveTo(e.x, e.y);
+            // this.repaint();
+        }
     }
 
     mouseUp(e : MouseEvent) {
         // this.ctx.closePath();
+        this.ctx.lineTo(e.x, e.y);
         this.ctx.stroke();
     }
 }

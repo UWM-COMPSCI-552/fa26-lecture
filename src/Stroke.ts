@@ -1,10 +1,11 @@
 import { Point } from './Point.js';
+import { Shape } from './Shape.js';
 // import { writeFile } from 'node:fs/promises';
 
 /**
  * A mutable class representing a sequence of points in a color.
  */
-export class Stroke {
+export class Stroke implements Shape {
     private static allStrokes : Array<Stroke> = [];
     private color : string;
     private pointsArray : Array<Point> = [];
@@ -68,7 +69,7 @@ export class Stroke {
         return this.pointsArray.length;
     }
 
-    public setColor(color : string) : void {
+    public setStroke(color : string) : void {
         this.color = color;
     }
 

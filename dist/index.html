@@ -2,7 +2,7 @@
 <html lang="en-US">
   <head>
     <meta charset="utf-8"/>
-    <title>Scribble program</title>
+    <title>Draw program</title>
     <script src="draw.js" type="module"></script>
     <script type="module">
       import { draw } from './draw.js';
@@ -13,6 +13,11 @@
     </style>
   </head>
   <body onload="draw();">
+    <select id="toolSelect">
+      <option value="">Select a drawing tool</option>
+      <option value="stroke">Stroke</option>
+      <option value="rectangle">Rectangle</option>
+    </select><br/>
     <canvas id="myCanvas"></canvas>
   </body>
 </html>

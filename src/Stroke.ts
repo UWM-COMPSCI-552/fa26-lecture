@@ -1,5 +1,5 @@
 import { Point } from './Point.js';
-import { Shape } from './Shape.js';
+import { Delta, Shape } from './Shape.js';
 // import { writeFile } from 'node:fs/promises';
 
 /**
@@ -81,6 +81,9 @@ export class Stroke implements Shape {
         return this.color;
     }
 
+    public move(d : Delta) : void {
+        this.pointsArray = this.pointsArray.map((p) => p.move(d.dx,d.dy));
+    }
     /*public async write(filename : string) {
         const s = JSON.stringify(this);
         try {

@@ -1,4 +1,7 @@
-class Delta {}
+export interface Delta {
+    dx : number;
+    dy : number;
+}
 
 export interface Shape {
     draw : (ctx:CanvasRenderingContext2D) => void;

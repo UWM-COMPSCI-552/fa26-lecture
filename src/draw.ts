@@ -1,3 +1,4 @@
+import { Shape } from './Shape.js';
 import { Stroke } from './Stroke.js';
 import { Point } from './Point.js';
 
@@ -13,7 +14,7 @@ export class Draw {
     private canvas : HTMLCanvasElement;
     private select : HTMLSelectElement;
     private ctx : CanvasRenderingContext2D;
-    private drawing : Stroke[] = [];
+    private drawing : Shape[] = [];
 
     constructor(canvas : HTMLCanvasElement, select : HTMLSelectElement) {
         this.canvas = canvas;
@@ -36,7 +37,6 @@ export class Draw {
 
     repaint() {
         for (const st of this.drawing) {
-            console.log('drawing  stroke of size ', st.size());
             st.draw(this.ctx);
         }
     }
@@ -48,8 +48,7 @@ export class Draw {
     mouseDown(e : MouseEvent) {
         const rect = this.canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        if (this.select.value === "stroke") { ... } 
+        const y = e.clientY - rect.top; 
         const str = new Stroke("black");
         str.add(new Point(x, y));
         this.drawing.push(str);
@@ -63,7 +62,7 @@ export class Draw {
         const y = e.clientY - rect.top;
         const str = this.drawing[this.drawing.length-1];
         if (e.buttons == 1) {
-            str.add(new Point(x, y));
+            (str as Stroke).add(new Point(x, y));
             this.ctx.lineTo(x, y);
             this.ctx.stroke();
             this.ctx.beginPath();

@@ -34,6 +34,10 @@ export class Point {
         return this.x === other.x && this.y === other.y;
     }
 
+    public move(dx : number, dy: number) : Point {
+        return new Point(this.x + dx, this.y + dy);
+    }
+
     public toJSON() : PointJSON {
         return {
             x : this.x,

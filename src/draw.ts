@@ -2,10 +2,45 @@ import { Shape } from './Shape.js';
 import { Stroke } from './Stroke.js';
 import { Point } from './Point.js';
 
-export interface DrawMode {
+export interface Tool {
     down(p : Point) : void;
     drag(p : Point) : void;
     up(p : Point) : void
+}
+
+type Drawing = Array<Shape>;
+
+class StrokeTool implements Tool {
+    private str : Stroke = new Stroke();
+    private drawing : Drawing;
+    private ctx : CanvasRenderingContext2D;
+
+    constructor(drawing : Drawing, ctx : CanvasRenderingContext2D) {
+        this.drawing = drawing;
+        this.ctx = ctx;
+    }
+
+    down(p : Point) {
+        this.str = new Stroke("black");
+        this.str.add(p);
+        this.drawing.push(this.str);
+        this.ctx.beginPath();
+        this.ctx.moveTo(p.getX(), p.getY());
+    }
+
+    drag(p : Point) {
+        this.str.add(p);
+        this.ctx.lineTo(p.getX(), p.getY());
+        this.ctx.stroke();
+        this.ctx.beginPath();
+        this.ctx.moveTo(p.getX(), p.getY());
+    }
+
+    up(p : Point) {
+        // this.ctx.closePath();
+        this.ctx.lineTo(p.getX(), p.getY());
+        this.ctx.stroke();
+    }
 }
 export class Draw {
     private static MARGIN = 24;
@@ -14,7 +49,10 @@ export class Draw {
     private canvas : HTMLCanvasElement;
     private select : HTMLSelectElement;
     private ctx : CanvasRenderingContext2D;
-    private drawing : Shape[] = [];
+    private drawing : Drawing = [];
+
+    private readonly strokeTool : Tool;
+    private tool : Tool;
 
     constructor(canvas : HTMLCanvasElement, select : HTMLSelectElement) {
         this.canvas = canvas;
@@ -33,6 +71,16 @@ export class Draw {
             action();
             window.addEventListener('resize',action);
         }
+        this.strokeTool = new StrokeTool(this.drawing, this.ctx);
+        this.tool = this.strokeTool;
+        select.addEventListener('change', () => {
+            switch (select.value) {
+                default:
+                case "stroke":
+                    this.tool = this.strokeTool;
+                    break;
+            }
+        });
     }
 
     repaint() {
@@ -54,31 +102,20 @@ export class Draw {
 
     mouseDown(e : MouseEvent) {
         const p = this.getScreenPoint(e);
-        const str = new Stroke("black");
-        str.add(p);
-        this.drawing.push(str);
-        this.ctx.beginPath();
-        this.ctx.moveTo(p.getX(), p.getY());
+        this.tool.down(p);
     }
 
     mouseMoved(e : MouseEvent) {
         const p = this.getScreenPoint(e);
         const str = this.drawing[this.drawing.length-1];
         if (e.buttons == 1) {
-            (str as Stroke).add(p);
-            this.ctx.lineTo(p.getX(), p.getY());
-            this.ctx.stroke();
-            this.ctx.beginPath();
-            this.ctx.moveTo(p.getX(), p.getY());
-            // this.repaint();
+            this.tool.drag(p);
         }
     }
 
     mouseUp(e : MouseEvent) {
         const p = this.getScreenPoint(e);
-        // this.ctx.closePath();
-        this.ctx.lineTo(p.getX(), p.getY());
-        this.ctx.stroke();
+        this.tool.up(p);
     }
 }
 

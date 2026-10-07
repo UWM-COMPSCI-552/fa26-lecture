@@ -45,38 +45,39 @@ export class Draw {
         this.canvas.height = height;
     }
 
-    mouseDown(e : MouseEvent) {
-        const rect = this.canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top; 
-        const str = new Stroke("black");
-        str.add(new Point(x, y));
-        this.drawing.push(str);
-        this.ctx.beginPath();
-        this.ctx.moveTo(x, y);
-    }
-
-    mouseMoved(e : MouseEvent) {
+    getScreenPoint(e : {clientX : number, clientY : number}) : Point {
         const rect = this.canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
+        return new Point(x, y);
+    }
+
+    mouseDown(e : MouseEvent) {
+        const p = this.getScreenPoint(e);
+        const str = new Stroke("black");
+        str.add(p);
+        this.drawing.push(str);
+        this.ctx.beginPath();
+        this.ctx.moveTo(p.getX(), p.getY());
+    }
+
+    mouseMoved(e : MouseEvent) {
+        const p = this.getScreenPoint(e);
         const str = this.drawing[this.drawing.length-1];
         if (e.buttons == 1) {
-            (str as Stroke).add(new Point(x, y));
-            this.ctx.lineTo(x, y);
+            (str as Stroke).add(p);
+            this.ctx.lineTo(p.getX(), p.getY());
             this.ctx.stroke();
             this.ctx.beginPath();
-            this.ctx.moveTo(x, y);
+            this.ctx.moveTo(p.getX(), p.getY());
             // this.repaint();
         }
     }
 
     mouseUp(e : MouseEvent) {
-        const rect = this.canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        const p = this.getScreenPoint(e);
         // this.ctx.closePath();
-        this.ctx.lineTo(x, y);
+        this.ctx.lineTo(p.getX(), p.getY());
         this.ctx.stroke();
     }
 }

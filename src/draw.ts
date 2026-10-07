@@ -1,6 +1,7 @@
 import { Shape } from './Shape.js';
 import { Stroke } from './Stroke.js';
 import { Point } from './Point.js';
+import { Rectangle } from './Rectangle.js';
 
 export interface Tool {
     down(p : Point) : void;
@@ -42,6 +43,36 @@ class StrokeTool implements Tool {
         this.ctx.stroke();
     }
 }
+
+class RectangleTool implements Tool {
+    private str : Rectangle = new Rectangle(new Point(0,0),0,0);
+    private drawing : Drawing;
+    private ctx : CanvasRenderingContext2D;
+    private initial : Point = new Point(0,0);
+
+    constructor(drawing : Drawing, ctx : CanvasRenderingContext2D) {
+        this.drawing = drawing;
+        this.ctx = ctx;
+    }
+    
+    down(p : Point) {
+        this.str = new Rectangle(p,0,0);
+        this.drawing.push(this.str);
+        this.str.draw(this.ctx);
+        this.initial = p;
+    }
+
+    drag(p : Point) {
+        this.str.setCenter(new Point((this.initial.getX()+p.getX())/2, (this.initial.getY()+p.getY())/2));
+        this.str.setWidth(Math.abs(this.initial.getX()-p.getX()));
+        this.str.setHeight(Math.abs(this.initial.getY() - p.getY()));
+        this.str.draw(this.ctx);
+    }
+
+    up(p : Point) {
+        // ???
+    }
+}
 export class Draw {
     private static MARGIN = 24;
     private static TOOLHEIGHT = 24;
@@ -52,6 +83,12 @@ export class Draw {
     private drawing : Drawing = [];
 
     private readonly strokeTool : Tool;
+    private readonly nullTool : Tool = {
+        down(_ : Point) { },
+        drag(_ : Point) { },
+        up(_ : Point) {}
+    }
+    private readonly rectangleTool : Tool;
     private tool : Tool;
 
     constructor(canvas : HTMLCanvasElement, select : HTMLSelectElement) {
@@ -72,12 +109,20 @@ export class Draw {
             window.addEventListener('resize',action);
         }
         this.strokeTool = new StrokeTool(this.drawing, this.ctx);
-        this.tool = this.strokeTool;
+        this.rectangleTool = new RectangleTool(this.drawing, this.ctx);
+        this.tool = this.nullTool;
         select.addEventListener('change', () => {
             switch (select.value) {
                 default:
+                    this.tool = this.nullTool;
+                    console.log("selected null");
+                    break;
                 case "stroke":
                     this.tool = this.strokeTool;
+                    break;
+                case "rectangle":
+                    this.tool = this.rectangleTool;
+                    console.log("Seected rectangle");
                     break;
             }
         });

@@ -49,10 +49,12 @@ class RectangleTool implements Tool {
     private drawing : Drawing;
     private ctx : CanvasRenderingContext2D;
     private initial : Point = new Point(0,0);
+    private repaint : () => void;
 
-    constructor(drawing : Drawing, ctx : CanvasRenderingContext2D) {
+    constructor(drawing : Drawing, ctx : CanvasRenderingContext2D, repaint : () => void) {
         this.drawing = drawing;
         this.ctx = ctx;
+        this.repaint = repaint;
     }
     
     down(p : Point) {
@@ -70,7 +72,7 @@ class RectangleTool implements Tool {
     }
 
     up(p : Point) {
-        // ???
+        this.repaint();
     }
 }
 export class Draw {
@@ -109,7 +111,7 @@ export class Draw {
             window.addEventListener('resize',action);
         }
         this.strokeTool = new StrokeTool(this.drawing, this.ctx);
-        this.rectangleTool = new RectangleTool(this.drawing, this.ctx);
+        this.rectangleTool = new RectangleTool(this.drawing, this.ctx, this.repaint);
         this.tool = this.nullTool;
         select.addEventListener('change', () => {
             switch (select.value) {
@@ -129,6 +131,7 @@ export class Draw {
     }
 
     repaint() {
+        this.ctx.reset();
         for (const st of this.drawing) {
             st.draw(this.ctx);
         }

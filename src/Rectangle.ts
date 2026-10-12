@@ -29,7 +29,9 @@ export class Rectangle extends AbstractShape {
 
     draw(ctx: CanvasRenderingContext2D): void {
         // ctx.stroke = "black";
-        ctx.strokeRect(this.center.getX(),this.center.getY(),this.width,this.height)
+        const upperLeftX = this.center.getX() - this.width/2;
+        const upperLeftY = this.center.getY() - this.height/2;
+        ctx.strokeRect(upperLeftX,upperLeftY,this.width,this.height)
     }
 
     move(delta: Delta): void {

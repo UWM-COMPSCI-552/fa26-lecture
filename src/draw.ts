@@ -11,20 +11,27 @@ export interface Tool {
 
 type Drawing = Array<Shape>;
 
+interface Settings {
+    color : string;
+}
+
 class StrokeTool implements Tool {
     private str : Stroke = new Stroke();
     private drawing : Drawing;
     private ctx : CanvasRenderingContext2D;
+    private settings : Settings;
 
-    constructor(drawing : Drawing, ctx : CanvasRenderingContext2D) {
+    constructor(drawing : Drawing, ctx : CanvasRenderingContext2D, settings : Settings) {
         this.drawing = drawing;
         this.ctx = ctx;
+        this.settings = settings;
     }
 
     down(p : Point) {
-        this.str = new Stroke("black");
+        this.str = new Stroke(this.settings.color);
         this.str.add(p);
         this.drawing.push(this.str);
+        this.ctx.strokeStyle = this.settings.color;
         this.ctx.beginPath();
         this.ctx.moveTo(p.getX(), p.getY());
     }
@@ -50,10 +57,12 @@ class RectangleTool implements Tool {
     private ctx : CanvasRenderingContext2D;
     private initial : Point = new Point(0,0);
     private repaint : () => void;
+    private settings : Settings;
 
-    constructor(drawing : Drawing, ctx : CanvasRenderingContext2D, repaint : () => void) {
+    constructor(drawing : Drawing, ctx : CanvasRenderingContext2D, settings : Settings, repaint : () => void) {
         this.drawing = drawing;
         this.ctx = ctx;
+        this.settings = settings;
         this.repaint = repaint;
     }
     
@@ -80,9 +89,11 @@ export class Draw {
     private static TOOLHEIGHT = 24;
 
     private canvas : HTMLCanvasElement;
-    private select : HTMLSelectElement;
+    // private select : HTMLSelectElement;
+    private color : HTMLInputElement;
     private ctx : CanvasRenderingContext2D;
     private drawing : Drawing = [];
+    private settings : Settings = { color: "black" };
 
     private readonly strokeTool : Tool;
     private readonly nullTool : Tool = {
@@ -93,9 +104,9 @@ export class Draw {
     private readonly rectangleTool : Tool;
     private tool : Tool;
 
-    constructor(canvas : HTMLCanvasElement, select : HTMLSelectElement) {
+    constructor(canvas : HTMLCanvasElement, select : HTMLSelectElement, color : HTMLInputElement) {
         this.canvas = canvas;
-        this.select = select;
+        this.color = color;
         this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
         canvas.addEventListener('mousedown', (e) => this.mouseDown(e));
         canvas.addEventListener('mousemove', (e) => this.mouseMoved(e));
@@ -110,8 +121,8 @@ export class Draw {
             action();
             window.addEventListener('resize',action);
         }
-        this.strokeTool = new StrokeTool(this.drawing, this.ctx);
-        this.rectangleTool = new RectangleTool(this.drawing, this.ctx, this.repaint);
+        this.strokeTool = new StrokeTool(this.drawing, this.ctx, this.settings);
+        this.rectangleTool = new RectangleTool(this.drawing, this.ctx, this.settings, this.repaint);
         this.tool = this.nullTool;
         select.addEventListener('change', () => {
             switch (select.value) {
@@ -127,6 +138,9 @@ export class Draw {
                     console.log("Seected rectangle");
                     break;
             }
+        });
+        color.addEventListener('change', () => {
+            this.settings.color = color.value;
         });
     }
 
@@ -170,8 +184,9 @@ export class Draw {
 export function draw() {
     const canvas = document.getElementById('myCanvas');
     const select = document.getElementById('toolSelect');
+    const color = document.getElementById("colorSelect") as HTMLInputElement;
     if (canvas && select) {
-        new Draw(canvas as HTMLCanvasElement, select as HTMLSelectElement);
+        new Draw(canvas as HTMLCanvasElement, select as HTMLSelectElement, color);
     } else {
         console.error("couldn't find things");
     }

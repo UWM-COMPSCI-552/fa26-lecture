@@ -1,7 +1,10 @@
 import { Point } from './Point.js';
 import { AbstractShape, Delta } from './Shape.js';
 
-export class Rectangle extends AbstractShape {
+abstract class CenteredShape extends AbstractShape {
+
+}
+export class Rectangle extends CenteredShape {
     private center : Point;
     private width : number;
     private height : number;

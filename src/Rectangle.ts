@@ -1,7 +1,7 @@
 import { Point } from './Point.js';
 import { AbstractShape, Delta } from './Shape.js';
 
-abstract class CenteredShape extends AbstractShape {
+abstract class DefaultShape extends AbstractShape {
 
     protected center : Point;
     protected color : string;
@@ -20,7 +20,7 @@ abstract class CenteredShape extends AbstractShape {
         ctx.strokeStyle = this.color;
     }
 }
-export class Rectangle extends CenteredShape {
+export class Rectangle extends DefaultShape {
     private width : number;
     private height : number;
 

@@ -15,6 +15,10 @@ abstract class CenteredShape extends AbstractShape {
     public setCenter (c:Point) {
         this.center = c;
     }
+
+    public draw(ctx : CanvasRenderingContext2D) : void {
+        ctx.strokeStyle = this.color;
+    }
 }
 export class Rectangle extends CenteredShape {
     private width : number;
@@ -38,8 +42,8 @@ export class Rectangle extends CenteredShape {
         throw new Error('Method not implemented.');
     }
 
-    draw(ctx: CanvasRenderingContext2D): void {
-        ctx.strokeStyle = this.color;
+    override draw(ctx: CanvasRenderingContext2D): void {
+        super.draw(ctx);
         const upperLeftX = this.center.getX() - this.width/2;
         const upperLeftY = this.center.getY() - this.height/2;
         ctx.strokeRect(upperLeftX,upperLeftY,this.width,this.height)

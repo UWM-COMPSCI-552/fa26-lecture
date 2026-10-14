@@ -17,9 +17,9 @@ abstract class DefaultShape extends AbstractShape {
     }
 
     setStroke(color: string): void {
-        throw new Error('Method not implemented.');
+        this.color = color;
     }
-    
+
     public draw(ctx : CanvasRenderingContext2D) : void {
         ctx.strokeStyle = this.color;
     }

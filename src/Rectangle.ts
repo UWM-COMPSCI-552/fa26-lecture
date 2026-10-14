@@ -16,6 +16,10 @@ abstract class DefaultShape extends AbstractShape {
         this.center = c;
     }
 
+    setStroke(color: string): void {
+        throw new Error('Method not implemented.');
+    }
+    
     public draw(ctx : CanvasRenderingContext2D) : void {
         ctx.strokeStyle = this.color;
     }
@@ -38,9 +42,7 @@ export class Rectangle extends DefaultShape {
         this.height = h;
     }
     
-    setStroke(color: string): void {
-        throw new Error('Method not implemented.');
-    }
+    
 
     override draw(ctx: CanvasRenderingContext2D): void {
         super.draw(ctx);

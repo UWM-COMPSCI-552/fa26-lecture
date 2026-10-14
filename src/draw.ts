@@ -67,7 +67,7 @@ class RectangleTool implements Tool {
     }
     
     down(p : Point) {
-        this.str = new Rectangle(p,0,0,"black");
+        this.str = new Rectangle(p,0,0,this.settings.color);
         this.drawing.push(this.str);
         this.str.draw(this.ctx);
         this.initial = p;

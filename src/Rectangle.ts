@@ -4,10 +4,12 @@ import { AbstractShape, Delta } from './Shape.js';
 abstract class CenteredShape extends AbstractShape {
 
     protected center : Point;
+    protected color : string;
 
-    constructor (center : Point) {
+    constructor (center : Point, color : string) {
         super();
         this.center = center;
+        this.color = color;
     }
 
     public setCenter (c:Point) {
@@ -17,13 +19,11 @@ abstract class CenteredShape extends AbstractShape {
 export class Rectangle extends CenteredShape {
     private width : number;
     private height : number;
-    private color : string;
 
     constructor (center : Point, width : number, height : number, color : string) {
-        super(center);
+        super(center, color);
         this.width = width;
         this.height = height;
-        this.color = color;
     }
 
     

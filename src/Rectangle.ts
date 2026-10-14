@@ -3,24 +3,30 @@ import { AbstractShape, Delta } from './Shape.js';
 
 abstract class CenteredShape extends AbstractShape {
 
-}
-export class Rectangle extends CenteredShape {
-    private center : Point;
-    private width : number;
-    private height : number;
-    private color : string;
+    protected center : Point;
 
-    constructor (center : Point, width : number, height : number, color : string) {
+    constructor (center : Point) {
         super();
         this.center = center;
-        this.width = width;
-        this.height = height;
-        this.color = color;
     }
 
     public setCenter (c:Point) {
         this.center = c;
     }
+}
+export class Rectangle extends CenteredShape {
+    private width : number;
+    private height : number;
+    private color : string;
+
+    constructor (center : Point, width : number, height : number, color : string) {
+        super(center);
+        this.width = width;
+        this.height = height;
+        this.color = color;
+    }
+
+    
     public setWidth(w:number) {
         this.width = w;
     }

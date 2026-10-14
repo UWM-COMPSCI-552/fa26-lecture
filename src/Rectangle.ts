@@ -20,6 +20,10 @@ abstract class DefaultShape extends AbstractShape {
         this.color = color;
     }
 
+    move(delta: Delta): void {
+        throw new Error('Method not implemented.');
+    }
+
     public draw(ctx : CanvasRenderingContext2D) : void {
         ctx.strokeStyle = this.color;
     }
@@ -51,8 +55,6 @@ export class Rectangle extends DefaultShape {
         ctx.strokeRect(upperLeftX,upperLeftY,this.width,this.height)
     }
 
-    move(delta: Delta): void {
-        throw new Error('Method not implemented.');
-    }
+    
 
 }

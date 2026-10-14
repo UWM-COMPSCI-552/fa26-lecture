@@ -4,12 +4,12 @@ import { AbstractShape, Delta } from './Shape.js';
 abstract class DefaultShape extends AbstractShape {
 
     protected center : Point;
-    protected color : string;
+    protected strokeColor : string;
 
     constructor (center : Point, color : string) {
         super();
         this.center = center;
-        this.color = color;
+        this.strokeColor = color;
     }
 
     public setCenter (c:Point) {
@@ -17,7 +17,7 @@ abstract class DefaultShape extends AbstractShape {
     }
 
     setStroke(color: string): void {
-        this.color = color;
+        this.strokeColor = color;
     }
 
     move(delta: Delta): void {
@@ -25,7 +25,7 @@ abstract class DefaultShape extends AbstractShape {
     }
 
     public draw(ctx : CanvasRenderingContext2D) : void {
-        ctx.strokeStyle = this.color;
+        ctx.strokeStyle = this.strokeColor;
     }
 }
 export class Rectangle extends DefaultShape {

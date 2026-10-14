@@ -21,7 +21,7 @@ abstract class DefaultShape extends AbstractShape {
     }
 
     move(delta: Delta): void {
-        throw new Error('Method not implemented.');
+        this.center = new Point(this.center.getX() + delta.dx, this.center.getY() + delta.dy);
     }
 
     public draw(ctx : CanvasRenderingContext2D) : void {

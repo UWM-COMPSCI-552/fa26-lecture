@@ -52,7 +52,7 @@ class StrokeTool implements Tool {
 }
 
 class RectangleTool implements Tool {
-    private str : Rectangle = new Rectangle(new Point(0,0),0,0);
+    private str : Rectangle = new Rectangle(new Point(0,0),0,0,"black");
     private drawing : Drawing;
     private ctx : CanvasRenderingContext2D;
     private initial : Point = new Point(0,0);
@@ -67,7 +67,7 @@ class RectangleTool implements Tool {
     }
     
     down(p : Point) {
-        this.str = new Rectangle(p,0,0);
+        this.str = new Rectangle(p,0,0,"black");
         this.drawing.push(this.str);
         this.str.draw(this.ctx);
         this.initial = p;

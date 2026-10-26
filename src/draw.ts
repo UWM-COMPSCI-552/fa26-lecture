@@ -94,13 +94,12 @@ export class Draw {
     private ctx : CanvasRenderingContext2D;
     private drawing : Drawing = [];
 
-    private readonly strokeTool : Tool;
     private readonly nullTool : Tool = {
         down(_ : Point) { },
         drag(_ : Point) { },
         up(_ : Point) {}
     }
-    private readonly rectangleTool : Tool;
+    
     
 
     constructor(canvas : HTMLCanvasElement, select : HTMLSelectElement, color : HTMLInputElement) {
@@ -108,12 +107,18 @@ export class Draw {
         this.color = color;
         this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
+        let strokeTool : Tool;
+        let rectangleTool : Tool;
+
         let tool : Tool = this.nullTool;
         function setTool(t : Tool) {
             tool = t;
         }
 
         let settings : Settings = { color: "black" };
+
+        strokeTool = new StrokeTool(this.drawing, this.ctx, settings);
+        rectangleTool = new RectangleTool(this.drawing, this.ctx, settings, this.repaint);
 
         const mouseDown = (e:MouseEvent) => {
             const p = this.getScreenPoint(e);
@@ -143,8 +148,6 @@ export class Draw {
             action();
             window.addEventListener('resize',action);
         }
-        this.strokeTool = new StrokeTool(this.drawing, this.ctx, settings);
-        this.rectangleTool = new RectangleTool(this.drawing, this.ctx, settings, this.repaint);
         
         select.addEventListener('change', () => {
             switch (select.value) {
@@ -153,16 +156,16 @@ export class Draw {
                     console.log("selected null");
                     break;
                 case "stroke":
-                    setTool(this.strokeTool);
+                    setTool(strokeTool);
                     break;
                 case "rectangle":
-                    setTool(this.rectangleTool);
+                    setTool(rectangleTool);
                     console.log("Seected rectangle");
                     break;
             }
         });
         color.addEventListener('change', () => {
-            settings.color = color.value // settings = { ...settings, color:color.value };
+            settings.color = color.value; // settings = { ...settings, color:color.value };
         });
     }
 

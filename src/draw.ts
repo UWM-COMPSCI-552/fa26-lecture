@@ -112,9 +112,20 @@ export class Draw {
             const p = this.getScreenPoint(e);
             this.tool.down(p);
         };
+        const mouseMoved = (e:MouseEvent) => {
+            const p = this.getScreenPoint(e);
+            const str = this.drawing[this.drawing.length-1];
+            if (e.buttons == 1) {
+                this.tool.drag(p);
+            }
+        }
+        const mouseUp = (e:MouseEvent) => {
+            const p = this.getScreenPoint(e);
+            this.tool.up(p);
+        }
         canvas.addEventListener('mousedown', mouseDown);
-        canvas.addEventListener('mousemove', (e) => this.mouseMoved(e));
-        canvas.addEventListener('mouseup', (e) => this.mouseUp(e));
+        canvas.addEventListener('mousemove', mouseMoved);
+        canvas.addEventListener('mouseup', mouseUp);
         // canvas.addEventListener('mousedies', (e) => this.mouseUp(e));
         const window = document.defaultView;
         if (window) {
@@ -166,18 +177,6 @@ export class Draw {
         return new Point(x, y);
     }
 
-    mouseMoved(e : MouseEvent) {
-        const p = this.getScreenPoint(e);
-        const str = this.drawing[this.drawing.length-1];
-        if (e.buttons == 1) {
-            this.tool.drag(p);
-        }
-    }
-
-    mouseUp(e : MouseEvent) {
-        const p = this.getScreenPoint(e);
-        this.tool.up(p);
-    }
 }
 
 export function draw() {

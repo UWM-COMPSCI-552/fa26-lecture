@@ -110,6 +110,9 @@ export class Draw {
         this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
         let tool : Tool = this.nullTool;
+        function setTool(t : Tool) {
+            tool = t;
+        }
 
         const mouseDown = (e:MouseEvent) => {
             const p = this.getScreenPoint(e);
@@ -145,14 +148,14 @@ export class Draw {
         select.addEventListener('change', () => {
             switch (select.value) {
                 default:
-                    tool = this.nullTool;
+                    setTool(this.nullTool);
                     console.log("selected null");
                     break;
                 case "stroke":
-                    tool = this.strokeTool;
+                    setTool(this.strokeTool);
                     break;
                 case "rectangle":
-                    tool = this.rectangleTool;
+                    setTool(this.rectangleTool);
                     console.log("Seected rectangle");
                     break;
             }

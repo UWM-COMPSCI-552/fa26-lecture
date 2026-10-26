@@ -102,26 +102,29 @@ export class Draw {
         up(_ : Point) {}
     }
     private readonly rectangleTool : Tool;
-    private tool : Tool;
+    
 
     constructor(canvas : HTMLCanvasElement, select : HTMLSelectElement, color : HTMLInputElement) {
         this.canvas = canvas;
         this.color = color;
         this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+
+        let tool : Tool = this.nullTool;
+
         const mouseDown = (e:MouseEvent) => {
             const p = this.getScreenPoint(e);
-            this.tool.down(p);
+            tool.down(p);
         };
         const mouseMoved = (e:MouseEvent) => {
             const p = this.getScreenPoint(e);
             const str = this.drawing[this.drawing.length-1];
             if (e.buttons == 1) {
-                this.tool.drag(p);
+                tool.drag(p);
             }
         }
         const mouseUp = (e:MouseEvent) => {
             const p = this.getScreenPoint(e);
-            this.tool.up(p);
+            tool.up(p);
         }
         canvas.addEventListener('mousedown', mouseDown);
         canvas.addEventListener('mousemove', mouseMoved);
@@ -138,18 +141,18 @@ export class Draw {
         }
         this.strokeTool = new StrokeTool(this.drawing, this.ctx, this.settings);
         this.rectangleTool = new RectangleTool(this.drawing, this.ctx, this.settings, this.repaint);
-        this.tool = this.nullTool;
+        
         select.addEventListener('change', () => {
             switch (select.value) {
                 default:
-                    this.tool = this.nullTool;
+                    tool = this.nullTool;
                     console.log("selected null");
                     break;
                 case "stroke":
-                    this.tool = this.strokeTool;
+                    tool = this.strokeTool;
                     break;
                 case "rectangle":
-                    this.tool = this.rectangleTool;
+                    tool = this.rectangleTool;
                     console.log("Seected rectangle");
                     break;
             }

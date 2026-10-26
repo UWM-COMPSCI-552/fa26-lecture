@@ -108,7 +108,11 @@ export class Draw {
         this.canvas = canvas;
         this.color = color;
         this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
-        canvas.addEventListener('mousedown', (e) => this.mouseDown(e));
+        const mouseDown = (e:MouseEvent) => {
+            const p = this.getScreenPoint(e);
+            this.tool.down(p);
+        };
+        canvas.addEventListener('mousedown', mouseDown);
         canvas.addEventListener('mousemove', (e) => this.mouseMoved(e));
         canvas.addEventListener('mouseup', (e) => this.mouseUp(e));
         // canvas.addEventListener('mousedies', (e) => this.mouseUp(e));
@@ -160,11 +164,6 @@ export class Draw {
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
         return new Point(x, y);
-    }
-
-    mouseDown(e : MouseEvent) {
-        const p = this.getScreenPoint(e);
-        this.tool.down(p);
     }
 
     mouseMoved(e : MouseEvent) {

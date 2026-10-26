@@ -162,7 +162,7 @@ export class Draw {
             }
         });
         color.addEventListener('change', () => {
-            settings.color = color.value;
+            settings.color = color.value // settings = { ...settings, color:color.value };
         });
     }
 

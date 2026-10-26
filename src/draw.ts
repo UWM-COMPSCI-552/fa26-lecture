@@ -93,7 +93,6 @@ export class Draw {
     private color : HTMLInputElement;
     private ctx : CanvasRenderingContext2D;
     private drawing : Drawing = [];
-    private settings : Settings = { color: "black" };
 
     private readonly strokeTool : Tool;
     private readonly nullTool : Tool = {
@@ -113,6 +112,8 @@ export class Draw {
         function setTool(t : Tool) {
             tool = t;
         }
+
+        let settings : Settings = { color: "black" };
 
         const mouseDown = (e:MouseEvent) => {
             const p = this.getScreenPoint(e);
@@ -142,8 +143,8 @@ export class Draw {
             action();
             window.addEventListener('resize',action);
         }
-        this.strokeTool = new StrokeTool(this.drawing, this.ctx, this.settings);
-        this.rectangleTool = new RectangleTool(this.drawing, this.ctx, this.settings, this.repaint);
+        this.strokeTool = new StrokeTool(this.drawing, this.ctx, settings);
+        this.rectangleTool = new RectangleTool(this.drawing, this.ctx, settings, this.repaint);
         
         select.addEventListener('change', () => {
             switch (select.value) {
@@ -161,7 +162,7 @@ export class Draw {
             }
         });
         color.addEventListener('change', () => {
-            this.settings.color = color.value;
+            settings.color = color.value;
         });
     }
 

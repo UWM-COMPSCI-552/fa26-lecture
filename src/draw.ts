@@ -120,19 +120,26 @@ export class Draw {
         strokeTool = new StrokeTool(this.drawing, this.ctx, settings);
         rectangleTool = new RectangleTool(this.drawing, this.ctx, settings, this.repaint);
 
+        function getScreenPoint(e : {clientX : number, clientY : number}) : Point {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            return new Point(x, y);
+        }
+
         const mouseDown = (e:MouseEvent) => {
-            const p = this.getScreenPoint(e);
+            const p = getScreenPoint(e);
             tool.down(p);
         };
         const mouseMoved = (e:MouseEvent) => {
-            const p = this.getScreenPoint(e);
+            const p = getScreenPoint(e);
             const str = this.drawing[this.drawing.length-1];
             if (e.buttons == 1) {
                 tool.drag(p);
             }
         }
         const mouseUp = (e:MouseEvent) => {
-            const p = this.getScreenPoint(e);
+            const p = getScreenPoint(e);
             tool.up(p);
         }
         canvas.addEventListener('mousedown', mouseDown);
@@ -180,12 +187,7 @@ export class Draw {
         this.canvas.height = height;
     }
 
-    getScreenPoint(e : {clientX : number, clientY : number}) : Point {
-        const rect = this.canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        return new Point(x, y);
-    }
+    
 
 }
 

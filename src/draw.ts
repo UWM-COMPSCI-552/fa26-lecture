@@ -145,11 +145,16 @@ export class Draw {
         canvas.addEventListener('mousedown', mouseDown);
         canvas.addEventListener('mousemove', mouseMoved);
         canvas.addEventListener('mouseup', mouseUp);
-        // canvas.addEventListener('mousedies', (e) => this.mouseUp(e));
+        
+        const setSize = (width : number, height : number) => {
+            this.canvas.width = width;
+            this.canvas.height = height;
+        };
+
         const window = document.defaultView;
         if (window) {
             const action = () => {
-                this.setSize(window.innerWidth - Draw.MARGIN, window.innerHeight - Draw.MARGIN - Draw.TOOLHEIGHT);
+                setSize(window.innerWidth - Draw.MARGIN, window.innerHeight - Draw.MARGIN - Draw.TOOLHEIGHT);
                 this.repaint();
             };
             action();
@@ -182,10 +187,7 @@ export class Draw {
             st.draw(this.ctx);
         }
     }
-    setSize(width : number, height : number) {
-        this.canvas.width = width;
-        this.canvas.height = height;
-    }
+    
 
     
 

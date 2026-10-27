@@ -94,11 +94,6 @@ export class Draw {
     private ctx : CanvasRenderingContext2D;
     private drawing : Drawing = [];
 
-    private readonly nullTool : Tool = {
-        down(_ : Point) { },
-        drag(_ : Point) { },
-        up(_ : Point) {}
-    }
     
     
 
@@ -107,10 +102,15 @@ export class Draw {
         this.color = color;
         this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
+        const nullTool : Tool = {
+            down(_ : Point) { },
+            drag(_ : Point) { },
+            up(_ : Point) {}
+        };
         let strokeTool : Tool;
         let rectangleTool : Tool;
 
-        let tool : Tool = this.nullTool;
+        let tool : Tool = nullTool;
         function setTool(t : Tool) {
             tool = t;
         }
@@ -152,7 +152,7 @@ export class Draw {
         select.addEventListener('change', () => {
             switch (select.value) {
                 default:
-                    setTool(this.nullTool);
+                    setTool(nullTool);
                     console.log("selected null");
                     break;
                 case "stroke":

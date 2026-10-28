@@ -102,6 +102,13 @@ export class Draw {
         this.color = color;
         this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
+        const repaint = () => {
+            this.ctx.reset();
+            for (const st of this.drawing) {
+                st.draw(this.ctx);
+            }
+        }
+
         const nullTool : Tool = {
             down(_ : Point) { },
             drag(_ : Point) { },
@@ -118,7 +125,7 @@ export class Draw {
         let settings : Settings = { color: "black" };
 
         strokeTool = new StrokeTool(this.drawing, this.ctx, settings);
-        rectangleTool = new RectangleTool(this.drawing, this.ctx, settings, this.repaint);
+        rectangleTool = new RectangleTool(this.drawing, this.ctx, settings, repaint);
 
         function getScreenPoint(e : {clientX : number, clientY : number}) : Point {
             const rect = canvas.getBoundingClientRect();
@@ -146,6 +153,9 @@ export class Draw {
         canvas.addEventListener('mousemove', mouseMoved);
         canvas.addEventListener('mouseup', mouseUp);
         
+    
+    
+
         const setSize = (width : number, height : number) => {
             this.canvas.width = width;
             this.canvas.height = height;
@@ -155,7 +165,7 @@ export class Draw {
         if (window) {
             const action = () => {
                 setSize(window.innerWidth - Draw.MARGIN, window.innerHeight - Draw.MARGIN - Draw.TOOLHEIGHT);
-                this.repaint();
+                repaint();
             };
             action();
             window.addEventListener('resize',action);
@@ -181,14 +191,7 @@ export class Draw {
         });
     }
 
-    repaint() {
-        this.ctx.reset();
-        for (const st of this.drawing) {
-            st.draw(this.ctx);
-        }
-    }
-    
-
+ 
     
 
 }

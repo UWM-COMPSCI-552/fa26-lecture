@@ -86,11 +86,9 @@ class RectangleTool implements Tool {
 }
 
 const MARGIN = 24;
+const TOOLHEIGHT = 24;
 
 export class Draw {
-    private static TOOLHEIGHT = 24;
-
-    
     
 
     constructor(canvas : HTMLCanvasElement, select : HTMLSelectElement, color : HTMLInputElement) {
@@ -159,7 +157,7 @@ export class Draw {
         const window = document.defaultView;
         if (window) {
             const action = () => {
-                setSize(window.innerWidth - MARGIN, window.innerHeight - MARGIN - Draw.TOOLHEIGHT);
+                setSize(window.innerWidth - MARGIN, window.innerHeight - MARGIN - TOOLHEIGHT);
                 repaint();
             };
             action();

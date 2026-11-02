@@ -84,8 +84,10 @@ class RectangleTool implements Tool {
         this.repaint();
     }
 }
+
+const MARGIN = 24;
+
 export class Draw {
-    private static MARGIN = 24;
     private static TOOLHEIGHT = 24;
 
     
@@ -157,7 +159,7 @@ export class Draw {
         const window = document.defaultView;
         if (window) {
             const action = () => {
-                setSize(window.innerWidth - Draw.MARGIN, window.innerHeight - Draw.MARGIN - Draw.TOOLHEIGHT);
+                setSize(window.innerWidth - MARGIN, window.innerHeight - MARGIN - Draw.TOOLHEIGHT);
                 repaint();
             };
             action();

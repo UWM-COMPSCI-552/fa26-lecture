@@ -88,19 +88,18 @@ export class Draw {
     private static MARGIN = 24;
     private static TOOLHEIGHT = 24;
 
-    private ctx : CanvasRenderingContext2D;
     private drawing : Drawing = [];
 
     
     
 
     constructor(canvas : HTMLCanvasElement, select : HTMLSelectElement, color : HTMLInputElement) {
-        this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+        const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
         const repaint = () => {
-            this.ctx.reset();
+            ctx.reset();
             for (const st of this.drawing) {
-                st.draw(this.ctx);
+                st.draw(ctx);
             }
         }
 
@@ -119,8 +118,8 @@ export class Draw {
 
         let settings : Settings = { color: "black" };
 
-        strokeTool = new StrokeTool(this.drawing, this.ctx, settings);
-        rectangleTool = new RectangleTool(this.drawing, this.ctx, settings, repaint);
+        strokeTool = new StrokeTool(this.drawing, ctx, settings);
+        rectangleTool = new RectangleTool(this.drawing, ctx, settings, repaint);
 
         function getScreenPoint(e : {clientX : number, clientY : number}) : Point {
             const rect = canvas.getBoundingClientRect();

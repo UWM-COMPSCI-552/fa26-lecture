@@ -56,14 +56,12 @@ class RectangleTool implements Tool {
     private drawing : Drawing;
     private ctx : CanvasRenderingContext2D;
     private initial : Point = new Point(0,0);
-    private repaint : () => void;
     private settings : Settings;
 
-    constructor(drawing : Drawing, ctx : CanvasRenderingContext2D, settings : Settings, repaint : () => void) {
+    constructor(drawing : Drawing, ctx : CanvasRenderingContext2D, settings : Settings) {
         this.drawing = drawing;
         this.ctx = ctx;
         this.settings = settings;
-        this.repaint = repaint;
     }
     
     down(p : Point) {
@@ -81,7 +79,7 @@ class RectangleTool implements Tool {
     }
 
     up(p : Point) {
-        this.repaint();
+        // nothing
     }
 }
 
@@ -118,7 +116,7 @@ export class Draw {
         let settings : Settings = { color: "black" };
 
         strokeTool = new StrokeTool(drawing, ctx, settings);
-        rectangleTool = new RectangleTool(drawing, ctx, settings, repaint);
+        rectangleTool = new RectangleTool(drawing, ctx, settings);
 
         function getScreenPoint(e : {clientX : number, clientY : number}) : Point {
             const rect = canvas.getBoundingClientRect();
@@ -141,6 +139,7 @@ export class Draw {
         const mouseUp = (e:MouseEvent) => {
             const p = getScreenPoint(e);
             tool.up(p);
+            repaint();
         }
         canvas.addEventListener('mousedown', mouseDown);
         canvas.addEventListener('mousemove', mouseMoved);

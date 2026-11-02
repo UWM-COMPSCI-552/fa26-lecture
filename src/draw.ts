@@ -88,7 +88,6 @@ export class Draw {
     private static MARGIN = 24;
     private static TOOLHEIGHT = 24;
 
-    private canvas : HTMLCanvasElement;
     // private select : HTMLSelectElement;
     private color : HTMLInputElement;
     private ctx : CanvasRenderingContext2D;
@@ -98,7 +97,6 @@ export class Draw {
     
 
     constructor(canvas : HTMLCanvasElement, select : HTMLSelectElement, color : HTMLInputElement) {
-        this.canvas = canvas;
         this.color = color;
         this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
@@ -157,8 +155,8 @@ export class Draw {
     
 
         const setSize = (width : number, height : number) => {
-            this.canvas.width = width;
-            this.canvas.height = height;
+            canvas.width = width;
+            canvas.height = height;
         };
 
         const window = document.defaultView;

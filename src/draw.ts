@@ -88,8 +88,6 @@ export class Draw {
     private static MARGIN = 24;
     private static TOOLHEIGHT = 24;
 
-    // private select : HTMLSelectElement;
-    private color : HTMLInputElement;
     private ctx : CanvasRenderingContext2D;
     private drawing : Drawing = [];
 
@@ -97,7 +95,6 @@ export class Draw {
     
 
     constructor(canvas : HTMLCanvasElement, select : HTMLSelectElement, color : HTMLInputElement) {
-        this.color = color;
         this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
         const repaint = () => {
